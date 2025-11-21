@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     volumes:
       - prometheus-data:/prometheus
-      - ./configs/prometheus/:/etc/prometheus/:ro
+      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
     networks:
@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
     volumes:
       - loki-data:/loki
-      - ./configs/loki/:/etc/loki/:ro
+      - ./configs/loki-config.yml:/etc/loki/loki-config.yml
     command:
       - "-config.file=/etc/loki/loki-config.yml"
     networks:
@@ -27,7 +27,7 @@ services:
     volumes:
       - /var/log:/var/log:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - ./configs/promtail/:/etc/promtail/:ro
+      - ./configs/promtail-config.yml:/etc/promtail/promtail-config.yml
     command:
       - "-config.file=/etc/promtail/promtail-config.yml"
     networks:
@@ -38,7 +38,7 @@ services:
     restart: unless-stopped
     volumes:
       - tempo-data:/var/tempo
-      - ./configs/tempo/:/etc/tempo/:ro
+      - ./configs/tempo-config.yml:/etc/tempo/tempo.yml
     command:
       - "-config.file=/etc/tempo/tempo.yml"
     networks:
@@ -48,7 +48,7 @@ services:
     image: otel/opentelemetry-collector-contrib:0.140.0
     restart: unless-stopped
     volumes:
-      - ./configs/otel-collector/:/etc/otelcol/:ro
+      - ./configs/otel-collector-config.yml:/etc/otelcol/config.yaml
     command:
       - "--config=/etc/otelcol/config.yaml"
     ports:
