@@ -3,11 +3,12 @@ version: "3.8"
 services:
   prometheus:
     image: prom/prometheus:v2.50.0
-    container_name: prometheus
     restart: unless-stopped
     volumes:
       - prometheus-data:/prometheus
-      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./configs/prometheus/:/etc/prometheus/:ro
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
     ports:
       - "9090:9090"
     networks:
@@ -15,11 +16,12 @@ services:
 
   loki:
     image: grafana/loki:2.9.4
-    container_name: loki
     restart: unless-stopped
     volumes:
       - loki-data:/loki
-      - ./configs/loki-config.yml:/etc/loki/local-config.yaml:ro
+      - ./configs/loki/:/etc/loki/:ro
+    command:
+      - "-config.file=/etc/loki/loki-config.yml"
     ports:
       - "3100:3100"
     networks:
@@ -27,22 +29,24 @@ services:
 
   promtail:
     image: grafana/promtail:2.9.4
-    container_name: promtail
     restart: unless-stopped
     volumes:
       - /var/log:/var/log:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - ./configs/promtail-config.yml:/etc/promtail/promtail-config.yaml:ro
+      - ./configs/promtail/:/etc/promtail/:ro
+    command:
+      - "-config.file=/etc/promtail/promtail-config.yml"
     networks:
       - observability
 
   tempo:
     image: grafana/tempo:2.3.0
-    container_name: tempo
     restart: unless-stopped
     volumes:
       - tempo-data:/var/tempo
-      - ./configs/tempo-config.yml:/etc/tempo/tempo.yml:ro
+      - ./configs/tempo/:/etc/tempo/:ro
+    command:
+      - "-config.file=/etc/tempo/tempo.yml"
     ports:
       - "3200:3200"
       - "4317:4317"
@@ -52,10 +56,11 @@ services:
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.101.0
-    container_name: otel-collector
     restart: unless-stopped
     volumes:
-      - ./configs/otel-collector-config.yaml:/etc/otelcol/config.yaml:ro
+      - ./configs/otel-collector/:/etc/otelcol/:ro
+    command:
+      - "--config=/etc/otelcol/config.yaml"
     ports:
       - "4317:4317"
       - "4318:4318"
@@ -65,7 +70,6 @@ services:
 
   grafana:
     image: grafana/grafana:10.4.3
-    container_name: grafana
     restart: unless-stopped
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
@@ -79,7 +83,6 @@ services:
 
   aspire-dashboard:
     image: mcr.microsoft.com/dotnet/aspire-dashboard:latest
-    container_name: aspire-dashboard
     restart: unless-stopped
     environment:
       - ASPIRE_DASHBOARD__MODE=External
