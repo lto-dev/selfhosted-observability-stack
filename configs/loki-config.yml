@@ -3,24 +3,52 @@ auth_enabled: false
 server:
   http_listen_port: 3100
 
-ingester:
-  chunk_idle_period: 5m
-  max_chunk_age: 1h
+common:
+  path_prefix: /loki
+  replication_factor: 1
+  ring:
+    instance_addr: 127.0.0.1
+
+storage_config:
+  filesystem:
+    directory: /loki
 
 schema_config:
   configs:
     - from: 2024-01-01
-      store: boltdb-shipper
+      store: tsdb
       object_store: filesystem
-      schema: v12
+      schema: v13
       index:
         prefix: index_
         period: 24h
 
-storage_config:
-  boltdb_shipper:
-    active_index_directory: /loki/index
-    cache_location: /loki/boltdb-cache
-    shared_store: filesystem
-  filesystem:
-    directory: /loki/chunks
+ingester:
+  max_chunk_age: 1h
+  chunk_idle_period: 5m
+  lifecycler:
+    join_after: 0s
+    ring:
+      kvstore:
+        store: inmemory
+      replication_factor: 1
+
+distributor:
+  ring:
+    kvstore:
+      store: inmemory
+
+querier:
+  max_concurrent: 2048
+
+query_range:
+  parallelise_shardable_queries: true
+
+limits_config:
+  ingestion_rate_mb: 16
+  ingestion_burst_size_mb: 32
+  max_query_length: 720h
+  max_query_parallelism: 32
+
+frontend:
+  max_outstanding_per_tenant: 2048
