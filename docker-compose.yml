@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     volumes:
       - prometheus-data:/prometheus
-      - /mnt/Wd/Portainer/compose/8/:/configs
+      - /mnt/Wd/Portainer/compose/8/configs:/configs
     command:
       - "--config.file=/configs/prometheus.yml"
     networks:
@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
     volumes:
       - loki-data:/loki
-      - /mnt/Wd/Portainer/compose/8/:/configs
+      - /mnt/Wd/Portainer/compose/8/configs:/configs
     command:
       - "-config.file=/configs/loki-config.yml"
     networks:
@@ -27,7 +27,7 @@ services:
     volumes:
       - /var/log:/var/log:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /mnt/Wd/Portainer/compose/8/:/configs
+      - /mnt/Wd/Portainer/compose/8/configs:/configs
     command:
       - "-config.file=/configs/promtail-config.yml"
     networks:
