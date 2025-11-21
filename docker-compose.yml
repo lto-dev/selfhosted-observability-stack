@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   prometheus:
-    image: prom/prometheus:v2.50.0
+    image: prom/prometheus:latest
     restart: unless-stopped
     volumes:
       - prometheus-data:/prometheus
@@ -13,7 +13,7 @@ services:
       - observability
 
   loki:
-    image: grafana/loki:2.9.4
+    image: grafana/loki:latest
     restart: unless-stopped
     volumes:
       - loki-data:/loki
@@ -24,7 +24,7 @@ services:
       - observability
 
   promtail:
-    image: grafana/promtail:2.9.4
+    image: grafana/promtail:latest
     restart: unless-stopped
     volumes:
       - /var/log:/var/log:ro
@@ -36,7 +36,7 @@ services:
       - observability
 
   tempo:
-    image: grafana/tempo:2.3.0
+    image: grafana/tempo:latest
     restart: unless-stopped
     volumes:
       - tempo-data:/var/tempo
@@ -61,7 +61,7 @@ services:
       - observability
 
   grafana:
-    image: grafana/grafana:10.4.3
+    image: grafana/grafana:latest
     restart: unless-stopped
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
