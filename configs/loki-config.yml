@@ -6,26 +6,10 @@ server:
 common:
   path_prefix: /loki
   replication_factor: 1
-  ring:
-    instance_addr: 127.0.0.1
-
-storage_config:
-  filesystem:
-    directory: /loki
-
-schema_config:
-  configs:
-    - from: 2024-01-01
-      store: tsdb
-      object_store: filesystem
-      schema: v13
-      index:
-        prefix: index_
-        period: 24h
 
 ingester:
-  max_chunk_age: 1h
   chunk_idle_period: 5m
+  max_chunk_age: 1h
   lifecycler:
     join_after: 0s
     ring:
@@ -38,6 +22,20 @@ distributor:
     kvstore:
       store: inmemory
 
+storage_config:
+  tsdb:
+    dir: /loki/data
+
+schema_config:
+  configs:
+    - from: 2024-01-01
+      store: tsdb
+      object_store: filesystem
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
+
 querier:
   max_concurrent: 2048
 
@@ -47,8 +45,8 @@ query_range:
 limits_config:
   ingestion_rate_mb: 16
   ingestion_burst_size_mb: 32
-  max_query_length: 720h
   max_query_parallelism: 32
+  max_query_length: 720h
 
 frontend:
   max_outstanding_per_tenant: 2048
