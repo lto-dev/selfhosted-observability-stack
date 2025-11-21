@@ -34,7 +34,7 @@ services:
       - observability
 
   tempo:
-    image: grafana/tempo::main-9e5af99
+    image: grafana/tempo:main-9e5af99
     restart: unless-stopped
     volumes:
       - tempo-data:/var/tempo
