@@ -9,8 +9,6 @@ services:
       - ./configs/prometheus/:/etc/prometheus/:ro
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
-    ports:
-      - "9090:9090"
     networks:
       - observability
 
@@ -22,8 +20,6 @@ services:
       - ./configs/loki/:/etc/loki/:ro
     command:
       - "-config.file=/etc/loki/loki-config.yml"
-    ports:
-      - "3100:3100"
     networks:
       - observability
 
@@ -47,10 +43,6 @@ services:
       - ./configs/tempo/:/etc/tempo/:ro
     command:
       - "-config.file=/etc/tempo/tempo.yml"
-    ports:
-      - "3200:3200"
-      - "4317:4317"
-      - "4318:4318"
     networks:
       - observability
 
