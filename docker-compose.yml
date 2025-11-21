@@ -1,8 +1,6 @@
-version: "3.8"
-
 services:
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v3.7.3
     restart: unless-stopped
     volumes:
       - prometheus-data:/prometheus
@@ -13,7 +11,7 @@ services:
       - observability
 
   loki:
-    image: grafana/loki:latest
+    image: grafana/loki:3.5.8
     restart: unless-stopped
     volumes:
       - loki-data:/loki
@@ -24,7 +22,7 @@ services:
       - observability
 
   promtail:
-    image: grafana/promtail:latest
+    image: grafana/promtail:3.5.8
     restart: unless-stopped
     volumes:
       - /var/log:/var/log:ro
@@ -36,7 +34,7 @@ services:
       - observability
 
   tempo:
-    image: grafana/tempo:latest
+    image: grafana/tempo::main-9e5af99
     restart: unless-stopped
     volumes:
       - tempo-data:/var/tempo
@@ -47,7 +45,7 @@ services:
       - observability
 
   otel-collector:
-    image: otel/opentelemetry-collector-contrib:0.101.0
+    image: otel/opentelemetry-collector-contrib:0.140.0
     restart: unless-stopped
     volumes:
       - ./configs/otel-collector/:/etc/otelcol/:ro
@@ -61,7 +59,7 @@ services:
       - observability
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:12.1.4
     restart: unless-stopped
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
@@ -74,7 +72,7 @@ services:
       - observability
 
   aspire-dashboard:
-    image: mcr.microsoft.com/dotnet/aspire-dashboard:latest
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.3
     restart: unless-stopped
     environment:
       - ASPIRE_DASHBOARD__MODE=External
