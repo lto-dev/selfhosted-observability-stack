@@ -23,8 +23,10 @@ distributor:
       store: inmemory
 
 storage_config:
-  tsdb:
-    dir: /loki/data
+  # This is the correct block for TSDB configuration
+  tsdb_shipper:
+    active_index_directory: /loki/data/tsdb-index # Directory where index files are written before upload
+    cache_location: /loki/data/tsdb-cache # Cache location for downloaded index files during queries
 
 schema_config:
   configs:
