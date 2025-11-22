@@ -26,7 +26,7 @@ exporters:
 
   # Use the OTLP HTTP exporter for Loki
   otlphttp/loki:
-    endpoint: "http://loki:3100/loki/api/v1/push"
+    endpoint: "http://loki:3100/otlp"
     tls:
       insecure: true
   debug: {}
@@ -46,5 +46,6 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [debug,otlphttp/loki]
+
 
 
