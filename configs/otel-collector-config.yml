@@ -15,15 +15,18 @@ processors:
 
 exporters:
   otlp/tempo:
-    endpoint: "http://tempo:4317"
+    endpoint: "http://tempo:9095"
     tls:
       insecure: true
 
   prometheus:
     endpoint: "0.0.0.0:8889"
 
-  loki:
+  # Use the OTLP HTTP exporter for Loki
+  otlphttp/loki:
     endpoint: "http://loki:3100/loki/api/v1/push"
+    tls:
+      insecure: true
 
 service:
   pipelines:
@@ -40,4 +43,4 @@ service:
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [loki]
+      exporters: [otlphttp/loki]
