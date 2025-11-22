@@ -75,7 +75,7 @@ services:
     restart: unless-stopped
     environment:
       - ASPIRE_LOGS__LOKI__URL=http://loki:3100
-      - ASPIRE_TRACES__TEMPO__URL=http://tempo:3200
+      - ASPIRE_TRACES__TEMPO__URL=http://tempo:3200/jaeger/api/traces
       - ASPIRE_METRICS__PROMETHEUS__URL=http://prometheus:9090
       - ASPIRE_DASHBOARD__MODE=External
       - ASPNETCORE_URLS=http://+:18888
