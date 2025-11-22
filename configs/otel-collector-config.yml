@@ -29,21 +29,22 @@ exporters:
     endpoint: "http://loki:3100/loki/api/v1/push"
     tls:
       insecure: true
-
+  debug: {}
 service:
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch, probabilistic_sampler]
-      exporters: [otlp/tempo]
+      exporters: [debug,otlp/tempo]
 
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [prometheus]
+      exporters: [debug,prometheus]
 
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlphttp/loki]
+      exporters: [debug,otlphttp/loki]
+
 
