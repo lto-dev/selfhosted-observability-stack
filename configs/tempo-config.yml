@@ -5,8 +5,10 @@ distributor:
   receivers:
     otlp:
       protocols:
-        http:
         grpc:
+          endpoint: 0.0.0.0:5680
+        http:
+          endpoint: 0.0.0.0:5681
 
 storage:
   trace:
@@ -16,5 +18,5 @@ storage:
 
 compactor:
   compaction:
-    # An explicit block retention can also be set here in hours (168h = 7 days)
     block_retention: 168h
+    
