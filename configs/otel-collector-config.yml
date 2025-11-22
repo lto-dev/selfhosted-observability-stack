@@ -17,7 +17,7 @@ processors:
 
 exporters:
   otlp/tempo:
-    endpoint: "http://tempo:9095"
+    endpoint: "tempo:5680"
     tls:
       insecure: true
 
@@ -46,4 +46,3 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [otlphttp/loki]
-
