@@ -13,4 +13,8 @@ storage:
     backend: local
     local:
       path: /var/tempo
-      retention: 168h
+
+compactor:
+  compaction:
+    # An explicit block retention can also be set here in hours (168h = 7 days)
+    block_retention: 168h
