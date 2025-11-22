@@ -22,7 +22,7 @@ exporters:
       insecure: true
 
   prometheus:
-    endpoint: "0.0.0.0:8889"
+    endpoint: "0.0.0.0:8989"
 
   # Use the OTLP HTTP exporter for Loki
   otlphttp/loki:
@@ -46,3 +46,4 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [otlphttp/loki]
+
